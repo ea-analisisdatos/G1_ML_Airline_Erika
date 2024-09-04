@@ -1,4 +1,3 @@
-# streamlit_app/app.py
 import streamlit as st
 import pandas as pd
 import sqlite3
@@ -16,8 +15,8 @@ ACCENT_COLOR = "#FFB81C"  # Amarillo dorado
 
 # Ruta del modelo y de las imágenes
 MODEL_PATH = Path(__file__).resolve().parent.parent / 'data' / 'modelos_entrenamiento' / 'catboost_model.cbm'
-HAPPY_IMAGE_PATH = "streamlit_app/images/happy_image.png"
-SAD_IMAGE_PATH = "streamlit_app/images/sad_image.png"
+HAPPY_IMAGE_PATH = str(Path(__file__).resolve().parent / 'images' / 'happy_image.png')  # Convertimos a str
+SAD_IMAGE_PATH = str(Path(__file__).resolve().parent / 'images' / 'sad_image.png')  # Convertimos a str
 FAVICON_PATH = "✈️"  # Usa el emoji de avión directamente
 
 # Configurar el favicon y la página
@@ -143,7 +142,7 @@ def main():
         st.session_state['online_boarding'] = st.slider("Online boarding", 0, 5, value=st.session_state['online_boarding'])
         st.session_state['seat_comfort'] = st.slider("Seat comfort", 0, 5, value=st.session_state['seat_comfort'])
         st.session_state['inflight_entertainment'] = st.slider("Inflight entertainment", 0, 5, value=st.session_state['inflight_entertainment'])
-        st.session_state['on_board_service'] =         st.slider("On-board service", 0, 5, value=st.session_state['on_board_service'])
+        st.session_state['on_board_service'] = st.slider("On-board service", 0, 5, value=st.session_state['on_board_service'])
         st.session_state['leg_room_service'] = st.slider("Leg room service", 0, 5, value=st.session_state['leg_room_service'])
         st.session_state['baggage_handling'] = st.slider("Baggage handling", 0, 5, value=st.session_state['baggage_handling'])
         st.session_state['checkin_service'] = st.slider("Checkin service", 0, 5, value=st.session_state['checkin_service'])
@@ -179,10 +178,13 @@ def main():
                 last_id = insert_passenger(data, prediction)
                 if last_id:
                     st.write(f"Registro {last_id} añadido a la base de datos con una predicción de satisfacción: **{prediction}**")
-                    if prediction == "Satisfied":
-                        st.image(HAPPY_IMAGE_PATH, caption="Satisfied", use_column_width='always')
-                    else:
-                        st.image(SAD_IMAGE_PATH, caption="Neutral or Dissatisfied", use_column_width='always')
+                    try:
+                        if prediction == "Satisfied":
+                            st.image(HAPPY_IMAGE_PATH, caption="Satisfied", use_column_width='always')
+                        else:
+                            st.image(SAD_IMAGE_PATH, caption="Neutral or Dissatisfied", use_column_width='always')
+                    except Exception as e:
+                        st.warning(f"La imagen no se pudo cargar. Verifica la ruta y el archivo. Error: {e}")
                 else:
                     st.write("Ocurrió un error al insertar el registro en la base de datos.")
             else:
@@ -231,4 +233,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
