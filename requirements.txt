@@ -92,4 +92,5 @@ tzdata==2024.1
 urllib3==2.2.2
 uvicorn==0.30.6
 websockets==12.0
+pip>=24.0
 
