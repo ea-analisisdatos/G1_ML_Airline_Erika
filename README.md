@@ -91,8 +91,8 @@ G1_ML_Airline/
 │   │   └── airline_satisfaction.db
 │   ├── airline_passenger_satisfaction.csv
 ├── logs/
-│   └── catboost_model.cbm
 ├── modelos_entrenamiento/
+│   ├── catboost_model.cbm
 │   ├── X_test.csv
 │   ├── X_train.csv
 │   ├── X_val.csv
