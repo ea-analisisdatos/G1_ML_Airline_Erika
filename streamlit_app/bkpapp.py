@@ -5,7 +5,6 @@ from catboost import CatBoostClassifier
 from pathlib import Path
 from sklearn.metrics import accuracy_score, recall_score, f1_score, roc_auc_score
 from config import DB_NAME
-import base64
 
 # Paleta de colores
 PRIMARY_COLOR = "#004687"  # Azul oscuro
@@ -19,40 +18,9 @@ MODEL_PATH = Path(__file__).resolve().parent.parent / 'data' / 'modelos_entrenam
 HAPPY_IMAGE_PATH = str(Path(__file__).resolve().parent / 'images' / 'happy_image.png')  # Convertimos a str
 SAD_IMAGE_PATH = str(Path(__file__).resolve().parent / 'images' / 'sad_image.png')  # Convertimos a str
 FAVICON_PATH = "✈️"  # Usa el emoji de avión directamente
-LOGO_PATH = str(Path(__file__).resolve().parent / 'images' / 'F5AIRLINES_logo.jpg')  # Ruta del logo cargado
-
-# Función para convertir la imagen a base64
-def get_base64_image(image_path):
-    with open(image_path, "rb") as img_file:
-        return base64.b64encode(img_file.read()).decode()
 
 # Configurar el favicon y la página
 st.set_page_config(page_title="Encuesta de Satisfacción de Pasajeros", page_icon=FAVICON_PATH, layout="wide")
-
-# Obtener la imagen en base64
-logo_base64 = get_base64_image(LOGO_PATH)
-
-# Mostrar el logo en la barra lateral
-def render_sidebar_logo():
-    st.sidebar.markdown(
-        f"""
-        <div style="text-align: center; margin-top: -70px; margin-bottom: 20px;">
-            <img src="data:image/jpeg;base64,{logo_base64}" style="width: 300px; height: auto;">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-# Mantener el título centrado en la pantalla principal
-def render_header():
-    st.markdown(
-        f"""
-        <div style="text-align: center; margin-bottom: 20px;">
-            <h1 style="color:{PRIMARY_COLOR}; font-size: 2.5em;">Formulario de Encuesta de Satisfacción de Pasajeros</h1>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 
 # Cargar el modelo previamente entrenado
 model = CatBoostClassifier()
@@ -151,11 +119,7 @@ def predict_satisfaction(data):
         return None
 
 def main():
-    # Mostrar el logo en la barra lateral
-    render_sidebar_logo()
-
-    # Renderizar el título centrado
-    render_header()
+    st.title("Formulario de Encuesta de Satisfacción de Pasajeros")
 
     # Inicializar el estado del formulario si no existe
     if 'form_submitted' not in st.session_state:
@@ -182,7 +146,7 @@ def main():
         st.session_state['cleanliness'] = 0
         st.session_state['departure_delay_in_minutes'] = 0
         st.session_state['arrival_delay_in_minutes'] = 0
-
+    
     # Barra lateral para los campos del formulario
     with st.sidebar:
         st.header("Rellena la encuesta")
@@ -238,11 +202,10 @@ def main():
                 if last_id:
                     st.write(f"Registro {last_id} añadido a la base de datos con una predicción de satisfacción: **{prediction}**")
                     try:
-                        st.image(SAD_IMAGE_PATH if prediction == "Neutral or Dissatisfied" else HAPPY_IMAGE_PATH, 
-                                 caption="Neutral or Dissatisfied" if prediction == "Neutral or Dissatisfied" else "Satisfied", 
-                                 use_column_width=True)
-                        # Mostrar el mensaje debajo de la imagen
-                        st.write(f"**Registro {last_id} añadido correctamente.**")
+                        if prediction == "Satisfied":
+                            st.image(HAPPY_IMAGE_PATH, caption="Satisfied", use_column_width='always')
+                        else:
+                            st.image(SAD_IMAGE_PATH, caption="Neutral or Dissatisfied", use_column_width='always')
                     except Exception as e:
                         st.warning(f"La imagen no se pudo cargar. Verifica la ruta y el archivo. Error: {e}")
                 else:

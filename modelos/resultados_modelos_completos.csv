@@ -1,0 +1,73 @@
+modelo,accuracy_mean,precision_mean,recall_mean,f1_mean,roc_auc_mean,tiempo_procesamiento,tiempo_procesamiento_legible,modelo_pipeline
+Random Forest,0.6323725216790208,0.5839618239443511,0.5277635368445701,0.5544396925972064,0.6200754017239964,85.08149147033691,0:01:25.081491,"Pipeline(steps=[('preprocessing',
+                 ColumnTransformer(transformers=[('num', StandardScaler(),
+                                                  ['Age', 'Flight Distance',
+                                                   'Departure Delay in Minutes',
+                                                   'Arrival Delay in '
+                                                   'Minutes'])])),
+                ('model', RandomForestClassifier(random_state=42))])"
+XGBoost,0.6779253618867586,0.6745971533617539,0.4962245536541462,0.5718125297454281,0.6565658597456139,1.8986272811889648,0:00:01.898627,"Pipeline(steps=[('preprocessing',
+                 ColumnTransformer(transformers=[('num', StandardScaler(),
+                                                  ['Age', 'Flight Distance',
+                                                   'Departure Delay in Minutes',
+                                                   'Arrival Delay in '
+                                                   'Minutes'])])),
+                ('model',
+                 XGBClassifier(base_score=None, booster=None, callbacks=None,
+                               colsample_bylevel=None, colsample_bynode=None,
+                               colsample_bytree=None, device=None,
+                               early_stopping_rounds=None,
+                               enable_...
+                               feature_types=None, gamma=None, grow_policy=None,
+                               importance_type=None,
+                               interaction_constraints=None, learning_rate=None,
+                               max_bin=None, max_cat_threshold=None,
+                               max_cat_to_onehot=None, max_delta_step=None,
+                               max_depth=None, max_leaves=None,
+                               min_child_weight=None, missing=nan,
+                               monotone_constraints=None, multi_strategy=None,
+                               n_estimators=100, n_jobs=None,
+                               num_parallel_tree=None, random_state=42, ...))])"
+CatBoost,0.9601907589732848,0.968753314854651,0.9384146428278207,0.9533412775031144,0.9576309121385194,8.473999500274658,0:00:08.474000,"Pipeline(steps=[('model',
+                 <catboost.core.CatBoostClassifier object at 0x0000028FC0823D10>)])"
+Stacking,0.9570438563360485,0.9627757306618119,0.9371228461560023,0.9497720073547022,0.9547020980336992,533.3766143321991,0:08:53.376614,"StackingClassifier(cv=5,
+                   estimators=[('catboost',
+                                Pipeline(steps=[('model',
+                                                 <catboost.core.CatBoostClassifier object at 0x0000028FC0823D10>)])),
+                               ('xgboost',
+                                Pipeline(steps=[('preprocessing',
+                                                 ColumnTransformer(transformers=[('num',
+                                                                                  StandardScaler(),
+                                                                                  ['Age',
+                                                                                   'Flight '
+                                                                                   'Distance',
+                                                                                   'Departure '
+                                                                                   'Delay '
+                                                                                   'in '
+                                                                                   'Minutes',
+                                                                                   'Arrival '
+                                                                                   'Delay '
+                                                                                   'in '
+                                                                                   'Minutes'])])),
+                                                ('model',
+                                                 XGBClassif...
+                                                               random_state=42, ...))])),
+                               ('random_forest',
+                                Pipeline(steps=[('preprocessing',
+                                                 ColumnTransformer(transformers=[('num',
+                                                                                  StandardScaler(),
+                                                                                  ['Age',
+                                                                                   'Flight '
+                                                                                   'Distance',
+                                                                                   'Departure '
+                                                                                   'Delay '
+                                                                                   'in '
+                                                                                   'Minutes',
+                                                                                   'Arrival '
+                                                                                   'Delay '
+                                                                                   'in '
+                                                                                   'Minutes'])])),
+                                                ('model',
+                                                 RandomForestClassifier(random_state=42))]))],
+                   final_estimator=RandomForestClassifier(n_estimators=50,
+                                                          random_state=42))"
