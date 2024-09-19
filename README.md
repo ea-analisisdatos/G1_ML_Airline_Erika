@@ -139,8 +139,3 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 Agradecemos a todos los miembros del equipo y a nuestros instructores por su apoyo y orientación en el desarrollo de este proyecto.
 
-## ⚠️ Reminder para Aitor
-
-Reflejar el nivel de los objetivos que se propone alcanzar el grupo de alumnos con el desarrollo del proyecto, y motivarlo en base a las circunstancias personales de sus miembros.
-
-Presentar a los miembros del equipo así como los roles que ha desempeñado en el desarrollo.
